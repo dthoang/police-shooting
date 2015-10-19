@@ -1,5 +1,38 @@
-/* You'll probably want to add some styles here */
+@import url(https://fonts.googleapis.com/css?family=Oswald:700);
+@import url(https://fonts.googleapis.com/css?family=Droid+Serif:400,400italic);
+
 #container {
-	height:500px;
-	width: 800px;
+	height:800px;
+}
+
+header {
+	background-color: #555152;
+}
+
+table {
+	text-align: center;
+	background-color: #555152;
+	color: white;
+}
+
+th {
+	text-align: center;
+}
+
+body {
+	font-family: 'Droid Serif', serif;
+	background-color: #FFEF00;
+}
+
+h1 {
+	color: white;
+	font-size: 4em;
+	font-family: 'Oswald', sans-serif;
+	padding-top: 0.3em;
+	padding-bottom: 0.3em;
+	padding-left: 0.5em;
+}
+
+p {
+	padding-left: 0.3em;
 }

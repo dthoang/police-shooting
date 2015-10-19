@@ -1,6 +1,6 @@
 var drawMap = function() {
  	var map = L.map('container').setView([38, -98], 4);
- 	var layer = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png').addTo(map);
+ 	var layer = L.tileLayer('https://api.mapbox.com/v4/mapbox.dark/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoiZHRob2FuZyIsImEiOiJjaWZ0M253dmUwaXk2dXVtMHVqbWQ4YXV1In0.jcE_vuyKtt4NHu-J0fsW1Q').addTo(map);
  	getData(map);
 }
 
@@ -42,9 +42,8 @@ var customBuild = function(map, data) {
   var unarmedBlack = 0;
   var armedWhite = 0;
   var unarmedWhite = 0;
-  var armedOther = 0;
-  var unarmedOther = 0;
 
+  //Adds points and layers to the map
   for(var i = 0; i < data.length; i++) {
     var race = data[i].Race;
     var isArmed = data[i]["Armed or Unarmed?"];
@@ -54,43 +53,35 @@ var customBuild = function(map, data) {
 
     if(isArmed == "Armed") {
         if(race == "White") {
-          circleDetail(lat, lng, 'red', 0.4, whiteArmed, summary);
+          circleDetail(lat, lng, 'red', whiteArmed, summary);
           armedWhite++;
         } else if(race == "Black or African American") {
-          circleDetail(lat, lng, 'deepskyblue', 0.7, blackArmed, summary);
+          circleDetail(lat, lng, 'deepskyblue', blackArmed, summary);
           armedBlack++;
         } else if(race == "Asian") { 
-          circleDetail(lat, lng, 'gold', 0.4, asianArmed, summary);
-          armedOther++;
+          circleDetail(lat, lng, 'gold', asianArmed, summary);
         } else if(race == "Unknown") {
-          circleDetail(lat, lng, 'violet', 0.4, unknownArmed, summary);
-          armedOther++;
+          circleDetail(lat, lng, 'violet', unknownArmed, summary);
         } else if(race == "American Indian or Alaska Native") {
-          circleDetail(lat, lng, 'lightgreen', 0.4, nativeArmed, summary);
-          armedOther++;
+          circleDetail(lat, lng, 'lightgreen', nativeArmed, summary);
         } else { //"Native Hawaiian or Other Pacific Islander"
-          circleDetail(lat, lng, 'orange', 0.4, pacificArmed, summary);
-          armedOther++;
+          circleDetail(lat, lng, 'orange', pacificArmed, summary);
         }
     } else { //unarmed
         if(race == "White") {
-          circleDetail(lat, lng, 'darkred', 1, whiteUnarmed, summary);
+          circleDetail(lat, lng, 'darkred', whiteUnarmed, summary);
           unarmedWhite++;
         } else if(race == "Black or African American") {
-          circleDetail(lat, lng, 'darkblue', 1, blackUnarmed, summary);
+          circleDetail(lat, lng, 'darkblue', blackUnarmed, summary);
           unarmedBlack++;
         } else if(race == "Asian") { 
-          circleDetail(lat, lng, 'goldenrod', 1, asianUnarmed, summary);
-          unarmedOther++;
+          circleDetail(lat, lng, 'saddlebrown', asianUnarmed, summary);
         } else if(race == "Unknown") {
-          circleDetail(lat, lng, 'darkviolet', 1, unknownUnarmed, summary);
-          unarmedOther++;
+          circleDetail(lat, lng, 'darkviolet', unknownUnarmed, summary);
         } else if(race == "American Indian or Alaska Native") {
-          circleDetail(lat, lng, 'darkgreen', 1, nativeUnarmed, summary);
-          unarmedOther++;
+          circleDetail(lat, lng, 'darkgreen', nativeUnarmed, summary);
         } else { //"Native Hawaiian or Other Pacific Islander"
-          circleDetail(lat, lng, 'sienna', 1, pacificUnarmed, summary);
-          unarmedOther++;
+          circleDetail(lat, lng, 'sienna', pacificUnarmed, summary);
         }
     }
   }
@@ -116,15 +107,18 @@ var customBuild = function(map, data) {
                  "Unarmed Unknown race victims" : unknownUnarmed
                }
   L.control.layers(null, overlay).addTo(map);  
+
+  $('#unarmedWhite').text(unarmedWhite);
+  $('#armedWhite').text(armedWhite);
+  $('#unarmedBlack').text(unarmedBlack);
+  $('#armedBlack').text(armedBlack);
 }
 
 //This function makes the appropriate circle markers for the map
-function circleDetail(lat, lng, fColor, fOpacity, grouping, summary) {
+function circleDetail(lat, lng, fColor, grouping, summary) {
   var circle = L.circle([lat, lng], 500, {
     color: fColor,
-    fillOpacity: fOpacity,
   }).bindPopup(summary);
   grouping.addLayer(circle);
-
 }
 
